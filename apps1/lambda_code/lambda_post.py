@@ -10,6 +10,21 @@ db_name = os.environ['DB_NAME']
 
 def lambda_handler(event, context):
     try:
+        # Parse JSON body
+        body = json.loads(event['body'])
+        nama = body.get('nama', '')
+        kelas = body.get('kelas', '')
+        sekolah = body.get('sekolah', '')
+        gender = body.get('gender', '')
+
+        # Validasi dasar (opsional)
+        if not (nama and kelas and sekolah and gender):
+            return {
+                "statusCode": 400,
+                "body": json.dumps("Semua field harus diisi.")
+            }
+
+
         conn = pymysql.connect(
             host=db_host,
             user=db_user,
@@ -19,22 +34,6 @@ def lambda_handler(event, context):
         )
 
         create_table_if_not_exists(conn)
-
-        # Ambil data dari event
-        body = event.get("body")
-        if body:
-            body = json.loads(body)
-        else:
-            body = event  # fallback jika dipanggil langsung dari test Lambda console
-
-        nama = body.get("nama")
-        kelas = body.get("kelas")
-        sekolah = body.get("sekolah")
-        gender = body.get("gender")
-
-        if not all([nama, kelas, sekolah, gender]):
-            raise ValueError("Missing required fields in input.")
-
         insert_data(conn, nama, kelas, sekolah, gender)
 
         response = {
