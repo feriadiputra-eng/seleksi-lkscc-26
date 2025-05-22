@@ -1,28 +1,28 @@
-// Database Configuration - GANTI DENGAN DATA RDS ANDA!
+// Database Configuration - REPLACE WITH YOUR RDS DATA!
 const dbConfig = {
-  host: 'your-rds-endpoint.rds.amazonaws.com', // Endpoint RDS Anda
-  user: 'admin',                              // Username database
-  password: 'password-anda',                  // Password database
-  database: 'student_db',                     // Nama database
+  host: 'slks-database.c3662ww80dda.us-west-2.rds.amazonaws.com', // Your RDS endpoint
+  user: 'admin',                              // Database username
+  password: 'password-anda',                  // Database password
+  database: 'student_db',                     // Database name
   waitForConnections: true,
   connectionLimit: 10,
   queueLimit: 0
 };
 
-// Koneksi ke database
+// Connect to the database
 const mysql = require('mysql2/promise');
 const pool = mysql.createPool(dbConfig);
 
-// Fungsi utama
+// Main function
 async function main() {
   try {
-    // 1. Buat tabel jika belum ada
+    // 1. Create the table if it doesn't exist
     await createTable();
     
-    // 2. Insert data awal (didi dan dimas)
+    // 2. Insert initial data (didi and dimas)
     await insertInitialData();
     
-    // 3. Tampilkan semua data
+    // 3. Display all student data
     await displayAllStudents();
     
   } catch (error) {
@@ -32,7 +32,7 @@ async function main() {
   }
 }
 
-// Fungsi untuk membuat tabel
+// Function to create the table
 async function createTable() {
   const connection = await pool.getConnection();
   try {
@@ -43,17 +43,17 @@ async function createTable() {
         age INT NOT NULL
       )
     `);
-    console.log('Tabel students berhasil dibuat/sudah ada');
+    console.log('Table "students" successfully created or already exists');
   } finally {
     connection.release();
   }
 }
 
-// Fungsi untuk insert data awal
+// Function to insert initial data
 async function insertInitialData() {
   const connection = await pool.getConnection();
   try {
-    // Cek apakah data sudah ada
+    // Check if the data already exists
     const [rows] = await connection.query('SELECT * FROM students WHERE name IN (?, ?)', ['didi', 'dimas']);
     
     if (rows.length === 0) {
@@ -61,32 +61,32 @@ async function insertInitialData() {
         'INSERT INTO students (name, age) VALUES (?, ?), (?, ?)',
         ['didi', 17, 'dimas', 17]
       );
-      console.log('Data awal berhasil ditambahkan');
+      console.log('Initial data successfully added');
     } else {
-      console.log('Data awal sudah ada');
+      console.log('Initial data already exists');
     }
   } finally {
     connection.release();
   }
 }
 
-// Fungsi untuk menampilkan semua data
+// Function to display all student data
 async function displayAllStudents() {
   const connection = await pool.getConnection();
   try {
     const [students] = await connection.query('SELECT * FROM students');
     
-    console.log('\nDaftar Siswa:');
+    console.log('\nStudent List:');
     console.table(students);
     
-    // Jika ingin menampilkan di HTML (bukan console)
+    // If you want to display in HTML (not in console)
     updateHTMLTable(students);
   } finally {
     connection.release();
   }
 }
 
-// Fungsi untuk update tabel HTML
+// Function to update the HTML table
 function updateHTMLTable(students) {
   const tbody = document.querySelector('#studentTable tbody');
   tbody.innerHTML = '';
@@ -102,9 +102,9 @@ function updateHTMLTable(students) {
   });
 }
 
-// Jalankan program utama
+// Run the main program
 document.addEventListener('DOMContentLoaded', () => {
-  // Untuk form tambah data
+  // For adding new student through form
   document.getElementById('studentForm').addEventListener('submit', async (e) => {
     e.preventDefault();
     const name = document.getElementById('name').value;
@@ -118,11 +118,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
   
-  // Jalankan main function
+  // Run the main function
   main();
 });
 
-// Fungsi tambah siswa baru
+// Function to add a new student
 async function addNewStudent(name, age) {
   const connection = await pool.getConnection();
   try {
@@ -130,7 +130,7 @@ async function addNewStudent(name, age) {
       'INSERT INTO students (name, age) VALUES (?, ?)',
       [name, age]
     );
-    console.log(`Siswa ${name} berhasil ditambahkan`);
+    console.log(`Student ${name} successfully added`);
   } finally {
     connection.release();
   }
