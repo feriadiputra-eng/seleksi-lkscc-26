@@ -1,9 +1,9 @@
 // Database Configuration - REPLACE WITH YOUR RDS DATA!
 const dbConfig = {
-  host: 'slks-database.c3662ww80dda.us-west-2.rds.amazonaws.com', // Your RDS endpoint
-  user: 'admin',                              // Database username
-  password: 'password-anda',                  // Database password
-  database: 'student_db',                     // Database name
+  host: '', // Your RDS endpoint
+  user: '',                              // Database username
+  password: '',                  // Database password
+  database: '',                     // Database name
   waitForConnections: true,
   connectionLimit: 10,
   queueLimit: 0
