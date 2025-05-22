@@ -34,4 +34,28 @@ document.addEventListener('DOMContentLoaded', function () {
             console.error('Error:', error);
         }
     });
+
+    async function fetchData() {
+        try {
+            const response = await fetch('https://YOUR_API_GATEWAY_URL'); // Ganti dengan GET endpoint
+            const dataList = await response.json();
+
+            // Kosongkan isi tabel
+            dataTable.innerHTML = '';
+
+            // Tampilkan data baru
+            dataList.forEach(data => {
+                const row = dataTable.insertRow();
+                row.insertCell(0).innerText = data.nama;
+                row.insertCell(1).innerText = data.kelas;
+                row.insertCell(2).innerText = data.sekolah;
+                row.insertCell(3).innerText = data.gender;
+            });
+        } catch (error) {
+            console.error('Gagal mengambil data:', error);
+        }
+    }
+
+    // Ambil data saat halaman pertama kali dimuat
+    fetchData();
 });
