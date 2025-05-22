@@ -20,11 +20,20 @@ def lambda_handler(event, context):
 
         create_table_if_not_exists(conn)
 
-        # Hardcoded data to insert
-        nama = "Test"
-        kelas = "test"
-        sekolah = "test"
-        gender = "Female"
+        # Ambil data dari event
+        body = event.get("body")
+        if body:
+            body = json.loads(body)
+        else:
+            body = event  # fallback jika dipanggil langsung dari test Lambda console
+
+        nama = body.get("nama")
+        kelas = body.get("kelas")
+        sekolah = body.get("sekolah")
+        gender = body.get("gender")
+
+        if not all([nama, kelas, sekolah, gender]):
+            raise ValueError("Missing required fields in input.")
 
         insert_data(conn, nama, kelas, sekolah, gender)
 
