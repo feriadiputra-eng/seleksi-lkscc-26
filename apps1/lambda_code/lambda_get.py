@@ -3,10 +3,10 @@ import os
 import json
 
 # Environment variables
-db_host = os.environ['DB_HOST']
-db_user = os.environ['DB_USER']
-db_pass = os.environ['DB_PASS']
-db_name = os.environ['DB_NAME']
+db_host = os.environ['db-feriadi.clicsuq2mdg9.us-west-2.rds.amazonaws.com']
+db_user = os.environ['admin']
+db_pass = os.environ['feriadiadmin']
+db_name = os.environ['db_feriadi']
 
 def lambda_handler(event, context):
     try:
