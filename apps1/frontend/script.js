@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         try {
             //Replace this with your API Gateway URL
-            const response = await fetch('https://mf8gbscp89.execute-api.us-west-2.amazonaws.com/dev/app1', { 
+            const response = await fetch('https://sle7ay0l26.execute-api.us-west-2.amazonaws.com/dev/app1', { 
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     async function fetchData() {
         try {
-            const response = await fetch('https://mf8gbscp89.execute-api.us-west-2.amazonaws.com/dev/app1'); // Ganti dengan GET endpoint
+            const response = await fetch('https://sle7ay0l26.execute-api.us-west-2.amazonaws.com/dev/app1'); // Ganti dengan GET endpoint
             const raw = await response.json();
             const dataList = JSON.parse(raw.body);
 
