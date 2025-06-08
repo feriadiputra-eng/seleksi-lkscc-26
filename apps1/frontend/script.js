@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         try {
             //Replace this with your API Gateway URL
-            const response = await fetch('https://YOUR_API_GATEWAY_URL', { 
+            const response = await fetch('https://tphw3459ha.execute-api.us-west-2.amazonaws.com/dev/app1', { 
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     async function fetchData() {
         try {
-            const response = await fetch('https://xzixnwbs3i.execute-api.us-west-2.amazonaws.com/prod/app1'); // Ganti dengan GET endpoint
+            const response = await fetch('https://tphw3459ha.execute-api.us-west-2.amazonaws.com/dev/app1'); // Ganti dengan GET endpoint
             const raw = await response.json();
             const dataList = JSON.parse(raw.body);
 
