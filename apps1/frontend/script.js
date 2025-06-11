@@ -38,8 +38,8 @@ document.addEventListener('DOMContentLoaded', function () {
     async function fetchData() {
         try {
             const response = await fetch('https://z4xaqzsz49.execute-api.us-west-2.amazonaws.com/dev/app1'); // Ganti dengan GET endpoint
-            const raw = await response.json();
-            const dataList = JSON.parse(raw.body);
+            const dataList = await response.json();
+            //const dataList = JSON.parse(raw.body);
 
             // Kosongkan isi tabel
             dataTable.innerHTML = '';
