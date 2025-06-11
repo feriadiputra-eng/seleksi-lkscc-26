@@ -54,6 +54,7 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         } catch (error) {
             console.error('Gagal mengambil data:', error);
+            return error;
         }
     }
 
