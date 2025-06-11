@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', function () {
         try {
             const response = await fetch('https://agc3rnx1bg.execute-api.us-west-2.amazonaws.com/dev/app1'); // Ganti dengan GET endpoint
             const raw = await response.json();
-            const dataList = JSON.parse(raw.body);
+            const dataList = JSON.parse(raw?.body ?? '[]');
 
             // Kosongkan isi tabel
             dataTable.innerHTML = '';
