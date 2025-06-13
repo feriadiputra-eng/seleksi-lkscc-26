@@ -3,24 +3,155 @@
 <head>
     <meta charset="UTF-8">
     <title>Form Pendaftaran</title>
+    <style>
+        :root {
+            --bg-color: #f4f6f8;
+            --text-color: #2c3e50;
+            --primary-color: #3498db;
+            --border-color: #ddd;
+            --table-bg: #ffffff;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-color: #1e1e1e;
+                --text-color: #ecf0f1;
+                --primary-color: #3498db;
+                --border-color: #333;
+                --table-bg: #2c2c2c;
+            }
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            padding: 30px;
+            line-height: 1.6;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        h1, h2 {
+            color: var(--primary-color);
+        }
+
+        form {
+            background: var(--table-bg);
+            padding: 20px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            max-width: 500px;
+            margin-bottom: 30px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.05);
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 15px;
+        }
+
+        input[type="text"], input[type="radio"] {
+            margin-top: 5px;
+            padding: 8px;
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            width: 100%;
+        }
+
+        input[type="radio"] {
+            width: auto;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background-color: #2a80b9;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: var(--table-bg);
+            border: 1px solid var(--border-color);
+        }
+
+        th, td {
+            border: 1px solid var(--border-color);
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        #result {
+            margin-top: 20px;
+            font-weight: bold;
+            color: green;
+        }
+
+        /* Popup Notification */
+        #popup {
+            visibility: hidden;
+            min-width: 250px;
+            background-color: #2ecc71;
+            color: white;
+            text-align: center;
+            border-radius: 6px;
+            padding: 12px;
+            position: fixed;
+            z-index: 1;
+            right: 20px;
+            bottom: 30px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.3);
+            animation: fadein 0.5s, fadeout 0.5s 2.5s;
+        }
+
+        @keyframes fadein {
+            from {bottom: 0; opacity: 0;}
+            to {bottom: 30px; opacity: 1;}
+        }
+
+        @keyframes fadeout {
+            from {bottom: 30px; opacity: 1;}
+            to {bottom: 0; opacity: 0;}
+        }
+
+        @keyframes fadeIn {
+            from {opacity: 0; transform: translateY(20px);}
+            to {opacity: 1; transform: translateY(0);}
+        }
+    </style>
 </head>
 <body>
+
     <h1>Form Pendaftaran</h1>
     <form id="userForm">
-        <label>Nama: <input type="text" id="nama" required></label><br>
-        <label>Kelas: <input type="text" id="kelas" required></label><br>
-        <label>Sekolah: <input type="text" id="sekolah" required></label><br>
+        <label>Nama: <input type="text" id="nama" required></label>
+        <label>Kelas: <input type="text" id="kelas" required></label>
+        <label>Sekolah: <input type="text" id="sekolah" required></label>
         <label>Gender:
             <input type="radio" name="gender" value="Laki-laki" required> Laki-laki
             <input type="radio" name="gender" value="Perempuan"> Perempuan
-        </label><br><br>
+        </label>
         <button type="submit">Kirim</button>
     </form>
 
     <p id="result"></p>
 
     <h2>Data Pendaftar</h2>
-    <table border="1" id="dataTable">
+    <table id="dataTable">
         <thead>
             <tr>
                 <th>Nama</th>
@@ -34,7 +165,42 @@
         </tbody>
     </table>
 
+    <!-- Notifikasi Popup -->
+    <div id="popup">✅ Data berhasil dikirim!</div>
 
-    <script src="script.js"></script>
+    <script>
+        const form = document.getElementById('userForm');
+        const result = document.getElementById('result');
+        const table = document.querySelector('#dataTable tbody');
+        const popup = document.getElementById('popup');
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const nama = document.getElementById('nama').value;
+            const kelas = document.getElementById('kelas').value;
+            const sekolah = document.getElementById('sekolah').value;
+            const gender = document.querySelector('input[name="gender"]:checked').value;
+
+            // Tambahkan ke tabel
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${nama}</td>
+                <td>${kelas}</td>
+                <td>${sekolah}</td>
+                <td>${gender}</td>
+            `;
+            table.appendChild(row);
+
+            // Tampilkan pesan berhasil
+            popup.style.visibility = 'visible';
+            setTimeout(() => {
+                popup.style.visibility = 'hidden';
+            }, 3000);
+
+            // Kosongkan form
+            form.reset();
+        });
+    </script>
 </body>
 </html>
